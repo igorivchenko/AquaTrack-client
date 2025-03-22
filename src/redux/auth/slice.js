@@ -34,6 +34,7 @@ export const slice = createSlice({
       })
       .addCase(signInWithGoogle.fulfilled, (state, { payload }) => {
         state.token = payload.accessToken;
+        state.isLoggedIn = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.email = action.payload.email;
