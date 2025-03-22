@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://aquatrack-backend-1b8z.onrender.com';
+axios.defaults.baseURL = 'https://aquatrack-api-c2xu.onrender.com';
 axios.defaults.withCredentials = true;
 
 export const setAuthHeader = token => {
