@@ -116,6 +116,7 @@ export const signInWithGoogle = createAsyncThunk(
   async (code, { rejectWithValue }) => {
     try {
       const response = await axios.post('auth/confirm-oauth', { code });
+      console.log('Response token:', response.data.data.accessToken);
       return response.data.data.accessToken;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to send URL');
