@@ -8,6 +8,7 @@ import Loader from './Utils/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsisRefreshing } from '../redux/auth/selectors';
 import { refreshUser } from '../redux/auth/operations';
+import GooglePage from '../pages/GooglePage/GooglePage';
 
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
 const SignUpPage = lazy(() => import('../pages/SignUpPage/SignUpPage'));
@@ -57,6 +58,7 @@ function App() {
           />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/reset-pwd" element={<ResetPasswordPage />} />
+          <Route path="/confirm-google-auth" element={<GooglePage />} />
         </Route>
       </Routes>
     </Suspense>
