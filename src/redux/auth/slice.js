@@ -33,9 +33,8 @@ export const slice = createSlice({
         state.totalUsers = payload.totalUsers;
       })
       .addCase(signInWithGoogle.fulfilled, (state, { payload }) => {
-        console.log('Payload token:', payload.accessToken);
         if (!payload || !payload.length) state.isLoggedIn = false;
-        state.token = payload.accessToken;
+        state.token = payload;
         state.isLoggedIn = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
