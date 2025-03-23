@@ -10,20 +10,21 @@ const GooglePage = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    function fetch() {
+    const fetch = async () => {
       try {
         const code = searchParams.get('code');
+        if (!code) return navigate('/signup');
 
-        dispatch(signInWithGoogle(code));
+        const result = await dispatch(signInWithGoogle(code)).unwrap();
 
-        if (code) {
+        if (result) {
           navigate('/tracker');
         }
       } catch (e) {
         console.log(e);
         navigate('/signup');
       }
-    }
+    };
     fetch();
   }, [searchParams, dispatch, navigate]);
 
