@@ -3,6 +3,7 @@ export const en = {
     welcomeSection: {
       main_title: 'Water consumption tracker',
       second_title: 'Record daily water intake and track',
+      my_tracker: 'My tracker',
     },
 
     common: {

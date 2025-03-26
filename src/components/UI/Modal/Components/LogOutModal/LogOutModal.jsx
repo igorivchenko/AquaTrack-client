@@ -3,9 +3,11 @@ import css from './LogOutModal.module.css';
 import toast from 'react-hot-toast';
 import { toggleModal } from '../../../../../redux/modal/slice.js';
 import { logout } from '../../../../../redux/auth/operations.js';
+import { useTranslation } from 'react-i18next';
 
 const LogOutModal = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const successStyle = { backgroundColor: '#9be1a0', fontWeight: 'medium' };
   const errorStyle = { backgroundColor: '#FFCCCC', fontWeight: 'medium' };
@@ -22,7 +24,7 @@ const LogOutModal = () => {
         iconTheme: successIconTheme,
       });
     } catch (err) {
-      toast.error(`Error: ${err.message}`, {
+      toast.error(`Error: ${err.data?.message}`, {
         style: errorStyle,
         iconTheme: errorIconTheme,
       });
@@ -31,14 +33,14 @@ const LogOutModal = () => {
 
   return (
     <div className={css.modalContent}>
-      <h2 className={css.modalTitle}>Log out</h2>
-      <p className={css.modalText}>Do you really want to leave?</p>
+      <h2 className={css.modalTitle}>{t('common.log_out')}</h2>
+      <p className={css.modalText}>{t('notifications.want_leave')}</p>
       <div className={css.modalActions}>
         <button className={css.confirmBtn} onClick={handleLogout}>
-          Log out
+          {t('common.log_out')}
         </button>
         <button className={css.cancelBtn} onClick={() => dispatch(toggleModal())}>
-          Cancel
+          {t('common.cancel')}
         </button>
       </div>
     </div>

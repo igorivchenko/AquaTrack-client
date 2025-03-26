@@ -57,7 +57,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     localStorage.removeItem('persist:auth');
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(error.response?.data);
   }
 });
 
@@ -94,7 +94,7 @@ export const sendResetEmail = createAsyncThunk(
       const response = await axios.post('/auth/send-reset-email', { email });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to send reset email');
+      return rejectWithValue(error.response?.data || 'Failed to send reset email');
     }
   }
 );
@@ -106,7 +106,7 @@ export const resetPassword = createAsyncThunk(
       const response = await axios.post('/auth/reset-pwd', { token, password });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to reset password');
+      return rejectWithValue(error.response?.data || 'Failed to reset password');
     }
   }
 );

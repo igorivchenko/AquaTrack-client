@@ -27,6 +27,7 @@ const SignInPage = () => {
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
       .email(t('validation.invalid_email'))
+      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, t('validation.valid_email'))
       .required(t('validation.email_required')),
     password: Yup.string()
       .min(6, t('validation.password_min'))

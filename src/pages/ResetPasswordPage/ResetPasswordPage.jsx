@@ -46,8 +46,7 @@ const ResetPasswordPage = () => {
       navigate('/signin');
     } catch (e) {
       toast.error(
-        t(`errors.${formattedErrorKey(e.response?.data?.message)}`) ||
-          t('errors.failed_change_pwd'),
+        t(`errors.${formattedErrorKey(e.data?.message)}`) || t('errors.failed_change_pwd'),
         {
           style: { backgroundColor: '#FFCCCC', fontWeight: 'semibold' },
           iconTheme: {

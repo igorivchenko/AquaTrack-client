@@ -39,13 +39,13 @@ const WelcomeSection = () => {
       ) : (
         <div className={s['button-container']}>
           <Link className={clsx(s.link, s.first)} to="/tracker">
-            My tracker
+            {t('welcomeSection.my_tracker')}
           </Link>
           <button
             className={s.confirmBtn}
             onClick={() => dispatch(toggleModal('Logout'), dispatch(setPosition('null')))}
           >
-            Log out
+            {t('common.log_out')}
           </button>
         </div>
       )}

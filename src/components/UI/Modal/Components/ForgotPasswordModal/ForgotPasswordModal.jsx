@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { toggleModal } from '../../../../../redux/modal/slice';
 import styles from './ForgotPasswordModal.module.css';
 import { useTranslation } from 'react-i18next';
+import { formattedErrorKey } from '../../../../../i18n/utils/formattedErrorKey';
 
 const ForgotPasswordModal = () => {
   const dispatch = useDispatch();
@@ -29,10 +30,15 @@ const ForgotPasswordModal = () => {
       });
       resetForm();
       dispatch(toggleModal());
-    } catch (error) {
-      toast.error(error.message || t('errors.Failed_to_send_the_email_please_try_again_later'), {
-        style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
-      });
+    } catch (e) {
+      toast.error(
+        t(`errors.${formattedErrorKey(e.data?.message)}`) ||
+          t('errors.Failed_to_send_the_email_please_try_again_later'),
+
+        {
+          style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
+        }
+      );
     } finally {
       setIsSubmitting(false);
     }
