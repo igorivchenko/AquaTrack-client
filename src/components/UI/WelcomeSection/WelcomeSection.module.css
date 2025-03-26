@@ -27,6 +27,7 @@
 
 .link {
   display: inline-block;
+  width: 100%;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.28571;
@@ -37,8 +38,7 @@
 }
 
 .first {
-  width: 116px;
-  padding: 14px 19px;
+  padding: 14px 6px;
   background-color: var(--color-accent);
   color: var(--color-currentDayBG);
 }
@@ -101,10 +101,6 @@
     line-height: 1.5;
     height: 60px;
     padding: 18px 40px;
-  }
-
-  .first {
-    width: 169px;
   }
 
   .confirmBtn {

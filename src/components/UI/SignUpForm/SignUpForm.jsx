@@ -12,20 +12,8 @@ import { selectIsLoading } from '../../../redux/auth/selectors';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-
-const SignUpSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email')
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      'Invalid email format. Example: userexample@mail.com'
-    )
-    .required('Required'),
-  password: Yup.string().min(6, 'Too short!').required('Required'),
-  repeatPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Required'),
-});
+import { useTranslation } from 'react-i18next';
+import LanguageButtons from '../LanguageButtons/LanguageButtons';
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState({
@@ -34,7 +22,19 @@ const SignUpPage = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const isLoading = useSelector(selectIsLoading);
+
+  const SignUpSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t('validation.invalid_email'))
+      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, t('validation.valid_email'))
+      .required(t('validation.email_required')),
+    password: Yup.string().min(6, 'Too short!').required(t('validation.password_required')),
+    repeatPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], t('validation.password_match'))
+      .required(t('validation.password_required')),
+  });
 
   const togglePasswordVisibility = field => {
     setShowPassword(prev => ({
@@ -50,7 +50,7 @@ const SignUpPage = () => {
     dispatch(registerUser(userData))
       .unwrap()
       .then(() => {
-        toast.success(`Registration successful! Welcome, User!`, {
+        toast.success(t('notifications.welcome'), {
           style: { backgroundColor: '#9be1a0', fontWeight: 'semibold' },
           iconTheme: { primary: 'white', secondary: 'black' },
         });
@@ -63,11 +63,11 @@ const SignUpPage = () => {
       })
       .catch(error => {
         const errorMessages = {
-          400: 'Bad request. Invalid input data.',
-          401: 'Unauthorized. Session not found.',
-          404: 'Resource not found.',
-          409: 'A contact with this email already exists.',
-          500: 'Something went wrong. Please try again later.',
+          400: t('errors.err_400'),
+          401: t('errors.err_401'),
+          404: t('errors.err_404'),
+          409: t('errors.err_409'),
+          500: t('errors.err_500'),
         };
 
         if (typeof error === 'string') {
@@ -76,7 +76,7 @@ const SignUpPage = () => {
         }
 
         const status = error?.status;
-        const message = errorMessages[status] || 'An unknown error occurred.';
+        const message = errorMessages[status] || t('unknown_error');
 
         toast.error(message, {
           style: { backgroundColor: '#FFCCCC', fontWeight: 'semibold' },
@@ -104,8 +104,9 @@ const SignUpPage = () => {
       {isLoading && <Loader />}
       <Logo />
       <ThemeToggle />
+      <LanguageButtons />
       <section className={styles.signupSection}>
-        <h2 className={styles.title}>Sign Up</h2>
+        <h2 className={styles.title}>{t('common.sign_up')}</h2>
         <Formik
           initialValues={{ email: '', password: '', repeatPassword: '' }}
           validationSchema={SignUpSchema}
@@ -115,11 +116,11 @@ const SignUpPage = () => {
         >
           {({ errors, touched, handleSubmit, setFieldTouched }) => (
             <Form className={styles.signupForm} noValidate onSubmit={handleSubmit}>
-              <label className={styles.label}>Email</label>
+              <label className={styles.label}>{t('common.email_label')}</label>
               <Field
                 name="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('notifications.enter_email')}
                 className={`${styles.input} ${
                   touched.email && errors.email ? styles.errorInput : ''
                 }`}
@@ -127,12 +128,12 @@ const SignUpPage = () => {
               />
               <ErrorMessage name="email" component="div" className={styles.errorMessage} />
 
-              <label className={styles.label}>Password</label>
+              <label className={styles.label}>{t('common.password_label')}</label>
               <div className={styles.passwordWrapper}>
                 <Field
                   name="password"
                   type={showPassword.password ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder={t('notifications.enter_password')}
                   className={`${styles.input} ${
                     touched.password && errors.password ? styles.errorInput : ''
                   }`}
@@ -154,12 +155,12 @@ const SignUpPage = () => {
               </div>
               <ErrorMessage name="password" component="div" className={styles.errorMessage} />
 
-              <label className={styles.label}>Repeat password</label>
+              <label className={styles.label}>{t('common.repeat_password_label')}</label>
               <div className={styles.passwordWrapper}>
                 <Field
                   name="repeatPassword"
                   type={showPassword.repeatPassword ? 'text' : 'password'}
-                  placeholder="Repeat password"
+                  placeholder={t('notifications.repeat_password')}
                   className={`${styles.input} ${
                     touched.repeatPassword && errors.repeatPassword ? styles.errorInput : ''
                   }`}
@@ -182,19 +183,19 @@ const SignUpPage = () => {
               <ErrorMessage name="repeatPassword" component="div" className={styles.errorMessage} />
 
               <button type="submit" className={styles.signupBtn}>
-                Sign Up
+                {t('common.sign_up')}{' '}
               </button>
             </Form>
           )}
         </Formik>
         <button onClick={handleGoogleLogin} className={styles.googlelink}>
           <FcGoogle />
-          Sign in with Google
+          {t('common.sign_up_google')}{' '}
         </button>
         <p className={styles.signinLink}>
-          Already have account?
+          {t('signUpForm.with_account')}&nbsp;
           <Link to="/signin" className={styles.signinLinkText}>
-            Sign In
+            {t('common.sign_in')}
           </Link>
         </p>
       </section>

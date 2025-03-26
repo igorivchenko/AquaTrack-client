@@ -202,6 +202,7 @@ a.signupLinkText {
   font-size: 14px;
   text-align: left;
   margin-top: 5px;
+  text-align: center;
 }
 
 .forgotPasswordLink {
@@ -330,6 +331,14 @@ a.signupLinkText {
   .signinSection {
     width: 436px;
     margin-top: 225px;
+  }
+
+  button.signinBtn {
+    font-size: 16px;
+  }
+
+  .googlelink {
+    font-size: 16px;
   }
 
   h2.title {

@@ -6,24 +6,33 @@ import { sendResetEmail } from '../../../../../redux/auth/operations';
 import toast from 'react-hot-toast';
 import { toggleModal } from '../../../../../redux/modal/slice';
 import styles from './ForgotPasswordModal.module.css';
-
-const ForgotPasswordSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-});
+import { useTranslation } from 'react-i18next';
 
 const ForgotPasswordModal = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const ForgotPasswordSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(t('validation.invalid_email'))
+      .required(t('validation.email_required')),
+  });
 
   const handleSubmit = async (values, { resetForm }) => {
     setIsSubmitting(true);
     try {
       await dispatch(sendResetEmail(values.email)).unwrap();
-      toast.success('Reset link sent! Check your email.');
+      toast.success(t('notifications.email_sent'), {
+        style: { backgroundColor: '#9be1a0', fontWeight: 'medium' },
+        iconTheme: { primary: 'white', secondary: 'black' },
+      });
       resetForm();
       dispatch(toggleModal());
     } catch (error) {
-      toast.error(error.message || 'Failed to send reset email');
+      toast.error(error.message || t('errors.Failed_to_send_the_email_please_try_again_later'), {
+        style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -31,10 +40,8 @@ const ForgotPasswordModal = () => {
 
   return (
     <div className={styles.modalContent}>
-      <h2 className={styles.modalHeader}>Forgot Password?</h2>
-      <p className={styles.modalText}>
-        We'll send you an email with a link to reset your password.
-      </p>
+      <h2 className={styles.modalHeader}>{t('signInForm.help')}&nbsp;</h2>
+      <p className={styles.modalText}>{t('changePasswordPage.send_email_text')}</p>
       <Formik
         initialValues={{ email: '' }}
         validationSchema={ForgotPasswordSchema}
@@ -45,7 +52,7 @@ const ForgotPasswordModal = () => {
             <Field
               name="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('notifications.enter_email')}
               className={`${styles.inputField} ${
                 submitCount > 0 && errors.email ? styles.errorInput : ''
               }`}
@@ -54,14 +61,14 @@ const ForgotPasswordModal = () => {
             <ErrorMessage name="email" component="div" className={styles.error} />
 
             <button className={styles['button-send']} type="submit" disabled={isSubmitting}>
-              Send Reset Link
+              {t('common.send_reset_link')}
             </button>
             <button
               className={styles['button-close']}
               type="button"
               onClick={() => dispatch(toggleModal())}
             >
-              Close
+              {t('common.cancel')}
             </button>
           </Form>
         )}
