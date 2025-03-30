@@ -3,6 +3,7 @@ import css from './WaterItem.module.css';
 import { useDispatch } from 'react-redux';
 import { setPosition, toggleModal } from '../../../../redux/modal/slice.js';
 import { setId } from '../../../../redux/water/slice.js';
+import { useTranslation } from 'react-i18next';
 
 const WaterItem = ({ id, amount, date }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const WaterItem = ({ id, amount, date }) => {
     hour12: true,
     timeZone: 'UTC',
   });
+  const { t } = useTranslation();
 
   return (
     <div className={css.cardWrapper}>
@@ -20,7 +22,9 @@ const WaterItem = ({ id, amount, date }) => {
         <use href="/images/icons.svg#icon-cup"></use>
       </svg>
       <div className={css.infoWrapper}>
-        <p className={css.amount}>{amount} ml</p>
+        <p className={css.amount}>
+          {amount} {t('common.ml')}
+        </p>
         <p className={css.time}>{formattedTime}</p>
       </div>
       <div className={css.svgWrapper}>

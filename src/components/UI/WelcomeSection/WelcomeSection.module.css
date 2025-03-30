@@ -38,7 +38,7 @@
 }
 
 .first {
-  padding: 14px 6px;
+  padding: 14px 19px;
   background-color: var(--color-accent);
   color: var(--color-currentDayBG);
 }
@@ -79,6 +79,12 @@
 
 .confirmBtn:focus {
   background-color: #87d28d;
+}
+
+@media (width >= 320px) and (width <= 375px) {
+  .first {
+    padding: 14px 6px;
+  }
 }
 
 @media (min-width: 768px) {

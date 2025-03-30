@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import i18next from 'i18next';
 
 axios.defaults.baseURL = 'https://aquatrack-api-c2xu.onrender.com';
 axios.defaults.withCredentials = true;
@@ -20,11 +21,11 @@ export const registerUser = createAsyncThunk(
       return response.data.data;
     } catch (error) {
       if (!error.response) {
-        return rejectWithValue('Network error. Please check your connection.');
+        return rejectWithValue(i18next.t('errors.err_500'));
       }
 
       const status = error.response.status;
-      const message = error.response.data?.message || 'An error occurred during login';
+      const message = error.response.data?.message || i18next.t('errors.signUp_error');
 
       return rejectWithValue({ status, message });
     }
@@ -39,25 +40,28 @@ export const signInUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (!error.response) {
-        return rejectWithValue('Network error. Please check your connection.');
+        return rejectWithValue(i18next.t('errors.err_500'));
       }
 
       const status = error.response.status;
-      const message = error.response.data?.message || 'An error occurred during login';
+      const message = error.response.data?.message || i18next.t('errors.signUp_error');
 
       return rejectWithValue({ status, message });
     }
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
     const response = await axios.post('/auth/logout');
     clearAuthHeader();
     localStorage.removeItem('persist:auth');
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response?.data);
+    if (!error.response) {
+      return rejectWithValue(i18next.t('errors.err_500'));
+    }
+    return rejectWithValue(error.response?.data);
   }
 });
 
@@ -66,7 +70,7 @@ export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) 
   const persistedToken = state.auth.token;
 
   if (!persistedToken) {
-    return thunkAPI.rejectWithValue('Unable to fetch user');
+    return thunkAPI.rejectWithValue(i18next.t('errors.unable_currentUser'));
   }
 
   try {
@@ -94,7 +98,9 @@ export const sendResetEmail = createAsyncThunk(
       const response = await axios.post('/auth/send-reset-email', { email });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to send reset email');
+      return rejectWithValue(
+        error.response?.data || i18next.t('errors.Failed_to_send_the_email_please_try_again_later')
+      );
     }
   }
 );
@@ -106,7 +112,7 @@ export const resetPassword = createAsyncThunk(
       const response = await axios.post('/auth/reset-pwd', { token, password });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to reset password');
+      return rejectWithValue(error.response?.data || i18next.t('errors.failed_change_pwd'));
     }
   }
 );

@@ -1,9 +1,14 @@
+.label {
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 16px;
+}
+
 .p {
   color: var(--color-secondary);
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  letter-spacing: -1%;
 }
 
 .inputContainer {
@@ -107,4 +112,10 @@ input[type='time']::-webkit-calendar-picker-indicator {
 
 input[type='time'] {
   -moz-appearance: textfield;
+}
+
+@media (min-width > 768px) {
+  .inputlight2 {
+    margin-bottom: 24px;
+  }
 }

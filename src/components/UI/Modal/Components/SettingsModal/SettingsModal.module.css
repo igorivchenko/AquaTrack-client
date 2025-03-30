@@ -339,7 +339,7 @@ p {
 .saveBtn {
   border: none;
   border-radius: 30px;
-  padding: 14px 40px;
+  padding: 14px 24px;
   width: 116px;
   height: 46px;
   background-color: var(--color-accent);
@@ -350,7 +350,7 @@ p {
   color: var(--color-bcgButton);
   cursor: pointer;
   @media screen and (min-width: 768px) {
-    padding: 16px 50px;
+    padding: 16px 30px;
     width: 141px;
     height: 56px;
   }

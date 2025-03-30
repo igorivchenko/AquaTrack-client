@@ -4,10 +4,12 @@ import { selectWaterNorm } from '../../../../redux/user/selectors';
 import { getWaterByDay } from '../../../../redux/water/operations';
 import { memo, useMemo } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const CalendarItem = ({ day, totalDayWater, isCurrentDate, token, date, isFuture }) => {
   const dispatch = useDispatch();
   const dailyNorm = useSelector(selectWaterNorm);
+  const { t } = useTranslation();
 
   const percents = useMemo(
     () => Math.min(100, totalDayWater ? Math.round((totalDayWater / dailyNorm) * 100) : 0),
@@ -29,13 +31,13 @@ const CalendarItem = ({ day, totalDayWater, isCurrentDate, token, date, isFuture
       .unwrap()
       .then(({ totalDayWater }) => {
         if (totalDayWater === 0) return;
-        toast.success(`Water intake data successfully retrieved!`, {
+        toast.success(t('notifications.get_data_day'), {
           style: { backgroundColor: '#9be1a0', fontWeight: 'medium' },
           iconTheme: { primary: 'white', secondary: 'black' },
         });
       })
       .catch(() => {
-        toast.error('Failed to fetch water intake data. Please try again.', {
+        toast.error(t('errors.get_data_day'), {
           style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
         });
       });

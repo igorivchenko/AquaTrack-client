@@ -4,12 +4,14 @@ import WaterDailyNorma from '../WaterDailyNorma/WaterDailyNorma';
 import AddWaterBtn from '../AddWaterBtn/AddWaterBtn';
 import WaterProgressBar from '../WaterProgressBar/WaterProgressBar';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
+import LanguageButtons from '../LanguageButtons/LanguageButtons.jsx';
 
 const WaterMainInfo = () => {
   return (
     <section className={s.section}>
       <Logo />
       <ThemeToggle />
+      <LanguageButtons />
       <div className={s.bottle}></div>
       <WaterDailyNorma />
       <AddWaterBtn />

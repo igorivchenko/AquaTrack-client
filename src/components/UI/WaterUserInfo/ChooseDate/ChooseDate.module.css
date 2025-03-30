@@ -4,6 +4,12 @@
   line-height: 120%;
 }
 
+@media (width >= 320px) and (width <= 375px) {
+  .text {
+    font-size: 18px;
+  }
+}
+
 @media (min-width: 768px) {
   .text {
     font-size: 28px;

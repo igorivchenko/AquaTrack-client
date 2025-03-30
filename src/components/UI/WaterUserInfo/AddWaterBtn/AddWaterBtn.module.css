@@ -40,3 +40,9 @@
   line-height: 150%;
   color: var(--color-main);
 }
+
+@media (width >= 320px) and (width <= 375px) {
+  .text {
+    font-size: 14px;
+  }
+}

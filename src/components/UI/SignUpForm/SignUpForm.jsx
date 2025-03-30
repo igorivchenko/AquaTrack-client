@@ -44,9 +44,11 @@ const SignUpPage = () => {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    const { repeatPassword, ...userData } = values;
-    console.log('Repeat Password:', repeatPassword);
-
+    const { email, password } = values;
+    const userData = {
+      email,
+      password,
+    };
     dispatch(registerUser(userData))
       .unwrap()
       .then(() => {
@@ -64,20 +66,23 @@ const SignUpPage = () => {
       .catch(error => {
         const errorMessages = {
           400: t('errors.err_400'),
-          401: t('errors.err_401'),
-          404: t('errors.err_404'),
           409: t('errors.err_409'),
           500: t('errors.err_500'),
         };
 
         if (typeof error === 'string') {
-          toast.error(error);
+          toast.error(error, {
+            style: { backgroundColor: '#FFCCCC', fontWeight: 'semibold' },
+            iconTheme: {
+              primary: 'white',
+              secondary: 'red',
+            },
+          });
           return;
         }
 
         const status = error?.status;
         const message = errorMessages[status] || t('unknown_error');
-
         toast.error(message, {
           style: { backgroundColor: '#FFCCCC', fontWeight: 'semibold' },
           iconTheme: {
@@ -95,7 +100,7 @@ const SignUpPage = () => {
 
       window.location.href = url;
     } catch (e) {
-      console.log('Error during getting OAuth url:', e);
+      console.log('Error during getting OAuth url:', e.message);
     }
   };
 

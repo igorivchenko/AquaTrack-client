@@ -28,6 +28,7 @@
   --color-cancelBtnHoverClr: #323f47;
   --color-buttonLightTheme: #72a874;
   --color-modalBUtton: #87d28d;
+  --color-languageButtons: #9bbf92;
 
   --font-family-main: 'Poppins', sans-serif;
   --font-family-secondary: 'Gilroy', sans-serif;
@@ -83,4 +84,5 @@
   --color-cancelBtnClr: #f0eff4;
   --color-cancelBtnHoverClr: #72a874;
   --color-buttonLightThemeDark: #4e724b;
+  --color-languageButtons: #9be1a0;
 }

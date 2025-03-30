@@ -19,12 +19,12 @@ const LogOutModal = () => {
       await dispatch(logout()).unwrap();
       dispatch(toggleModal());
 
-      toast.success('Logout successful!', {
+      toast.success(t('notifications.logout_successful'), {
         style: successStyle,
         iconTheme: successIconTheme,
       });
     } catch (err) {
-      toast.error(`Error: ${err.data?.message}`, {
+      toast.error(`Error: ${err}`, {
         style: errorStyle,
         iconTheme: errorIconTheme,
       });

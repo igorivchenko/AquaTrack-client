@@ -11,23 +11,25 @@ import {
   selectWaterId,
   selectWaterItemInfo,
 } from '../../../../../redux/water/selectors.js';
-
-const validationSchema = Yup.object({
-  date: Yup.string()
-    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Time must be in HH:mm format (00:00 - 23:59)')
-    .required('Incorrect time'),
-  amount: Yup.number()
-    .min(50, 'Min Value - 50 ml')
-    .max(1500, 'Max value - 1500 ml')
-    .required('This field is required'),
-});
+import { useTranslation } from 'react-i18next';
 
 const WaterForm = ({ type, initialData }) => {
   const WaterId = useSelector(selectWaterId);
   const waterItem = useSelector(state => selectWaterItemInfo(state, WaterId));
   const currentDate = useSelector(selectWaterCurrentDate);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const [currentTime, setCurrentTime] = useState('');
+
+  const validationSchema = Yup.object({
+    date: Yup.string()
+      .matches(/^([01]\d|2[0-3]):([0-5]\d)$/, t('validation.valid_time'))
+      .required(t('validation.time_required')),
+    amount: Yup.number()
+      .min(50, t('validation.number_min'))
+      .max(1500, t('validation.number_max'))
+      .required('This field is required'),
+  });
 
   useEffect(() => {
     const now = new Date();
@@ -96,8 +98,8 @@ const WaterForm = ({ type, initialData }) => {
     >
       {({ setFieldValue, values }) => (
         <Form>
-          <label>
-            <p className={styles.p}>Amount of water:</p>
+          <label className={styles.label}>
+            <p className={styles.p}>{t('waterModal.water_amount')}</p>
             <div className={styles.inputContainer}>
               <button
                 type="button"
@@ -111,7 +113,9 @@ const WaterForm = ({ type, initialData }) => {
                   <use href="/images/icons.svg#icon-minus-circle" />
                 </svg>
               </button>
-              <span className={styles.fixedValue}>{values.amount} ml</span>
+              <span className={styles.fixedValue}>
+                {values.amount} {t('common.ml')}
+              </span>
               <button
                 type="button"
                 onClick={() => {
@@ -127,12 +131,12 @@ const WaterForm = ({ type, initialData }) => {
             </div>
           </label>
           <label>
-            <p className={styles.p}>Recording time:</p>
+            <p className={styles.p}>{t('waterModal.record_time')}</p>
             <Field type="text" name="date" className={styles.inputlight1} />
             <ErrorMessage name="date" component="div" className={styles.error} />
           </label>
           <label>
-            <h3>Enter the value of the water used:</h3>
+            <h3>{t('waterModal.enter_water_value')}</h3>
             <Field
               type="number"
               name="amount"
@@ -155,7 +159,7 @@ const WaterForm = ({ type, initialData }) => {
           </label>
 
           <button type="submit" className={styles.saveButton}>
-            Save
+            {t('common.save')}{' '}
           </button>
         </Form>
       )}

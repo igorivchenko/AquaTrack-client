@@ -42,11 +42,11 @@ const SignInPage = () => {
     dispatch(signInUser(values))
       .unwrap()
       .then(() => {
-        toast.success(`Welcome, User!`, {
+        const userEmail = values.email.split('@')[0];
+        toast.success(t('notifications.welcome_login', { userEmail }), {
           style: { backgroundColor: '#9be1a0', fontWeight: 'medium' },
           iconTheme: { primary: 'white', secondary: 'black' },
         });
-
         resetForm();
         setTimeout(() => navigate('/tracker'), 2000);
       })
@@ -55,9 +55,19 @@ const SignInPage = () => {
           400: t('errors.err_400'),
           401: t('errors.err_401'),
           404: t('errors.err_404'),
-          409: t('errors.err_409'),
           500: t('errors.err_500'),
         };
+
+        if (typeof error === 'string') {
+          toast.error(error, {
+            style: { backgroundColor: '#FFCCCC', fontWeight: 'semibold' },
+            iconTheme: {
+              primary: 'white',
+              secondary: 'red',
+            },
+          });
+          return;
+        }
 
         const message = errorMessages[error?.status] || t('errors.unknown_error');
         toast.error(message, { style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' } });

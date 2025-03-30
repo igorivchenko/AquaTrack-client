@@ -67,7 +67,7 @@
   opacity: 1;
   font-size: 12px;
   font-weight: 700;
-  width: 50px;
+  min-width: fit-content;
   padding: 2px;
   color: var(--color-main);
   border: 2px solid var(--color-accent);
