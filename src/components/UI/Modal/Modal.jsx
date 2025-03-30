@@ -57,7 +57,7 @@ const Modal = ({ children, toggleModal, isOpen }) => {
             setTimeout(toggleModal, 300);
           }}
         >
-          <svg width="28" height="28" className={css.icon}>
+          <svg width="20" height="20" className={css.icon}>
             <use href="/images/icons.svg#icon-x"></use>
           </svg>
         </button>

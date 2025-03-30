@@ -10,8 +10,8 @@ const WaterModal = ({ type, initialData }) => {
 
   return (
     <div className={`${styles.waterModal}`}>
-      <h2>{title}</h2>
-      <h3>{subtitle}</h3>
+      <h2 className={styles.title}>{title}</h2>
+      <h3 className={styles.subtitle}>{subtitle}</h3>
       <WaterForm type={type} initialData={initialData} />
     </div>
   );

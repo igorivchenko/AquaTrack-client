@@ -1,5 +1,4 @@
 .label {
-  display: inline-block;
   width: fit-content;
   margin-bottom: 16px;
 }
@@ -8,7 +7,22 @@
   color: var(--color-secondary);
   font-weight: 400;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 1.3;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
+label:nth-child(n + 2) {
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 1.3;
 }
 
 .inputContainer {
@@ -17,36 +31,23 @@
   gap: 10px;
 }
 
+.field {
+  width: 100%;
+  font-size: 14px;
+  padding: 14px 16px;
+  color: var(--color-secondary);
+  background-color: var(--color-light);
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
+
 .fixedValue {
+  font-size: 14px;
+  text-align: center;
+  padding: 10px 20px;
   background-color: var(--color-main);
   color: var(--color-light);
   border-radius: 30px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.inputlight1 {
-  background-color: var(--color-light);
-  color: var(--color-secondary);
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  padding: 10px;
-  width: 100%;
-  margin-top: 8px;
-}
-
-.inputlight2 {
-  background-color: var(--color-light);
-  color: var(--color-secondary);
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  padding: 10px;
-  width: 100%;
-  margin-top: -24px;
-  margin-bottom: 14px;
 }
 
 .button {
@@ -81,8 +82,7 @@
   cursor: pointer;
   font-weight: 700;
   font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -1%;
+  line-height: 1.3;
   text-align: center;
 }
 
@@ -114,8 +114,26 @@ input[type='time'] {
   -moz-appearance: textfield;
 }
 
-@media (min-width > 768px) {
-  .inputlight2 {
-    margin-bottom: 24px;
+@media (min-width: 768px) {
+  .field {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  .fixedValue {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  .p {
+    font-size: 16px;
+  }
+
+  .saveButton {
+    font-size: 16px;
   }
 }

@@ -58,14 +58,14 @@ const WaterForm = ({ type, initialData }) => {
       dispatch(addWaterEntry(payload))
         .unwrap()
         .then(() => {
-          toast.success(`Successfully added water record!`, {
+          toast.success(t('notifications.water_added'), {
             style: { backgroundColor: '#9be1a0', fontWeight: 'medium' },
             iconTheme: { primary: 'white', secondary: 'black' },
           });
           dispatch(toggleModal());
         })
         .catch(() => {
-          toast.error('Sorry something went wrong', {
+          toast.error(t('errors.err_500'), {
             style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
           });
         });
@@ -75,14 +75,14 @@ const WaterForm = ({ type, initialData }) => {
       dispatch(editWaterEntry({ entryId: WaterId, entryData: payload }))
         .unwrap()
         .then(() => {
-          toast.success(`Your entry has been successfully updated!`, {
+          toast.success(t('notifications.water_updated'), {
             style: { backgroundColor: '#9be1a0', fontWeight: 'medium' },
             iconTheme: { primary: 'white', secondary: 'black' },
           });
           dispatch(toggleModal());
         })
         .catch(() => {
-          toast.error('Oops! Something went wrong while updating.', {
+          toast.error(t('errors.err_500'), {
             style: { backgroundColor: '#FFCCCC', fontWeight: 'medium' },
           });
         });
@@ -132,15 +132,15 @@ const WaterForm = ({ type, initialData }) => {
           </label>
           <label>
             <p className={styles.p}>{t('waterModal.record_time')}</p>
-            <Field type="text" name="date" className={styles.inputlight1} />
+            <Field type="text" name="date" className={styles.field} />
             <ErrorMessage name="date" component="div" className={styles.error} />
           </label>
           <label>
-            <h3>{t('waterModal.enter_water_value')}</h3>
+            <h3 className={styles.subtitle}>{t('waterModal.enter_water_value')}</h3>
             <Field
               type="number"
               name="amount"
-              className={styles.inputlight2}
+              className={styles.field}
               onChange={e => {
                 const value = e.target.value;
                 if (value === '') {

@@ -7,22 +7,20 @@
   width: 100%;
 }
 
-.waterModal h2 {
+.title {
   font-size: 20px;
-  color: var(--color-main);
   font-weight: 700;
-  line-height: 24px;
-  letter-spacing: -1%;
+  line-height: 1.2;
+  color: var(--color-main);
+  margin-bottom: 24px;
 }
 
-.waterModal h3 {
+.subtitle {
   font-size: 16px;
   color: var(--color-main);
   font-weight: 700;
-  line-height: 20px;
-  letter-spacing: -1%;
+  line-height: 1.2;
   margin-bottom: 20px;
-  margin-top: 24px;
 }
 
 @media screen and (max-width: 375px) {
@@ -33,8 +31,18 @@
 }
 
 @media screen and (min-width: 768px) {
+  .title {
+    font-size: 26px;
+    line-height: 1;
+  }
+
   .waterModal {
     min-width: 518px;
     width: 100%;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1.3;
   }
 }
