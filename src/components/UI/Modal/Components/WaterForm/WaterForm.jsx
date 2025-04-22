@@ -130,12 +130,12 @@ const WaterForm = ({ type, initialData }) => {
               </button>
             </div>
           </label>
-          <label>
+          <label className={styles.label}>
             <p className={styles.p}>{t('waterModal.record_time')}</p>
             <Field type="text" name="date" className={styles.field} />
             <ErrorMessage name="date" component="div" className={styles.error} />
           </label>
-          <label>
+          <label className={styles.label}>
             <h3 className={styles.subtitle}>{t('waterModal.enter_water_value')}</h3>
             <Field
               type="number"
