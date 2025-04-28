@@ -40,12 +40,10 @@ export const en = {
 
     validation: {
       invalid_email: 'Invalid email address',
-      valid_email: 'Invalid email format. Example: userexample@mail.com',
-      email_min: 'Email must be at least 3 characters',
-      email_max: 'Email cannot exceed 50 characters',
+      valid_email: 'Invalid email format',
       email_required: 'Email is required',
-      password_min: 'Password must be at least 3 characters',
-      password_max: 'Password cannot exceed 50 characters',
+      password_min: 'Password must be at least 6 characters',
+      password_max: 'Password cannot exceed 30 characters',
       password_required: 'Password is required',
       password_match: 'Passwords must match',
       valid_time: 'Time must be in HH:mm format (00:00 - 23:59)',

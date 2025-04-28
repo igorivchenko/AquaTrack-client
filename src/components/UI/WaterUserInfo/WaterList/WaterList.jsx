@@ -14,11 +14,13 @@ const WaterList = () => {
         {waterNotesArray.length === 0 ? (
           <WaterPlaceholder />
         ) : (
-          waterNotesArray.map(({ _id, date, amount }) => (
-            <li key={_id}>
-              <WaterItem id={_id} amount={amount} date={date} />
-            </li>
-          ))
+          waterNotesArray
+            .toSorted((a, b) => new Date(a.date) - new Date(b.date))
+            .map(({ _id, date, amount }) => (
+              <li key={_id}>
+                <WaterItem id={_id} amount={amount} date={date} />
+              </li>
+            ))
         )}
       </ul>
     </div>
