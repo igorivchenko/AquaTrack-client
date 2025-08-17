@@ -21,3 +21,8 @@ hydration.
 
 The project uses a custom **backend** built with Node.js and Express, ensuring reliable data storage
 in MongoDB and flexible interaction through a REST API.
+
+⚠️ **API is deployed on [Render.com](https://render.com/)**
+
+> The server may enter an idle state during inactivity, which can cause the first request to be
+> delayed by 50 seconds or more.

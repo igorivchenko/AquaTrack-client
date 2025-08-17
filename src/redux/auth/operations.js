@@ -1,23 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import i18next from 'i18next';
-
-axios.defaults.baseURL = 'https://aquatrack-api-c2xu.onrender.com';
-axios.defaults.withCredentials = true;
-
-export const setAuthHeader = token => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
-};
+import { api, clearAuthHeader } from '../../utils/axios.config';
+import { logoutUser } from './slice';
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/auth/signup', userData);
+      const response = await api.post('/auth/signup', userData);
       return response.data.data;
     } catch (error) {
       if (!error.response) {
@@ -36,8 +26,8 @@ export const signInUser = createAsyncThunk(
   'auth/signInUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/auth/signin', userData, { withCredentials: true });
-      return response.data;
+      const response = await api.post('/auth/signin', userData);
+      return response.data.data.accessToken;
     } catch (error) {
       if (!error.response) {
         return rejectWithValue(i18next.t('errors.err_500'));
@@ -53,7 +43,7 @@ export const signInUser = createAsyncThunk(
 
 export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.post('/auth/logout');
+    const response = await api.post('/auth/logout');
     clearAuthHeader();
     localStorage.removeItem('persist:auth');
     return response.data;
@@ -65,26 +55,23 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   }
 });
 
-export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
-  const state = thunkAPI.getState();
-  const persistedToken = state.auth.token;
+export const refreshUser = createAsyncThunk(
+  'auth/refresh',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await api.post('/auth/refresh');
 
-  if (!persistedToken) {
-    return thunkAPI.rejectWithValue(i18next.t('errors.unable_currentUser'));
+      return res.data.data.accessToken;
+    } catch (err) {
+      dispatch(logoutUser());
+      return rejectWithValue(err.message);
+    }
   }
-
-  try {
-    setAuthHeader(persistedToken);
-    const res = await axios.post('/auth/refresh');
-    return res.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
-  }
-});
+);
 
 export const getTotalUsers = createAsyncThunk('auth/getLTotalUsers', async (_, thunkAPI) => {
   try {
-    const response = await axios.get('/auth/totalUsers');
+    const response = await api.get('/auth/totalUsers');
     return response.data.data;
   } catch (e) {
     return thunkAPI.rejectWithValue(e.response?.data);
@@ -95,7 +82,7 @@ export const sendResetEmail = createAsyncThunk(
   'auth/sendResetEmail',
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/auth/send-reset-email', { email });
+      const response = await api.post('/auth/send-reset-email', { email });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -109,7 +96,7 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ token, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/auth/reset-pwd', { token, password });
+      const response = await api.post('/auth/reset-pwd', { token, password });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || i18next.t('errors.failed_change_pwd'));
@@ -121,7 +108,7 @@ export const signInWithGoogle = createAsyncThunk(
   'auth/signInWithGoogle',
   async (code, { rejectWithValue }) => {
     try {
-      const response = await axios.post('auth/confirm-oauth', { code });
+      const response = await api.post('auth/confirm-oauth', { code });
       return response.data.data.accessToken;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to send URL');

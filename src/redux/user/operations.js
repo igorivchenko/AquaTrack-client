@@ -1,18 +1,12 @@
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setAuthHeader } from '../auth/operations';
 import i18next from 'i18next';
+import { api } from '../../utils/axios.config';
 
 export const fetchUserInfo = createAsyncThunk(
   'user/fetchUserInfo',
-  async (token, { rejectWithValue }) => {
-    if (!token) {
-      return rejectWithValue(i18next.t('errors.unable_currentUser'));
-    }
-
+  async (_, { rejectWithValue }) => {
     try {
-      setAuthHeader(token);
-      const response = await axios.get('/users/current');
+      const response = await api.get('/users/current');
       return response.data.data;
     } catch (error) {
       if (!error.response) {
@@ -27,7 +21,7 @@ export const updateUserInfo = createAsyncThunk(
   'user/updateUserInfo',
   async (formData, thunkAPI) => {
     try {
-      const response = await axios.patch('/users', formData);
+      const response = await api.patch('/users', formData);
       return response.data.data;
     } catch (error) {
       if (!error.response) {
@@ -42,7 +36,7 @@ export const updateUserAvatar = createAsyncThunk(
   'user/updateUserAvatar',
   async (formData, thunkAPI) => {
     try {
-      const response = await axios.patch('/users/avatar', formData, {
+      const response = await api.patch('/users/avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

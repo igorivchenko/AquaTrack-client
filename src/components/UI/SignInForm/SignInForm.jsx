@@ -13,9 +13,9 @@ import Loader from '../../Utils/Loader/Loader';
 import { setPosition, toggleModal } from '../../../redux/modal/slice';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import { FcGoogle } from 'react-icons/fc';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import LanguageButtons from '../LanguageButtons/LanguageButtons';
+import { api } from '../../../utils/axios.config';
 
 const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +76,7 @@ const SignInPage = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const response = await axios.get('/auth/get-oauth-url');
+      const response = await api.get('/auth/get-oauth-url');
       const url = response.data.data.url;
 
       window.location.href = url;

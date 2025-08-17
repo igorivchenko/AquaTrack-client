@@ -7,26 +7,27 @@ import {
   signInUser,
   signInWithGoogle,
 } from './operations.js';
+import { clearAuthHeader } from '../../utils/axios.config.js';
 
 const initialState = {
   email: '',
   totalUsers: null,
-  token: null,
+  accessToken: null,
   error: null,
   isLoading: false,
   isLoggedIn: false,
-  isRefreshing: false,
 };
 
 export const slice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
-      state.token = action.payload;
+    logoutUser: state => {
+      clearAuthHeader();
+      state.isLoggedIn = false;
+      state.accessToken = null;
     },
   },
-
   extraReducers: builder => {
     builder
       .addCase(getTotalUsers.fulfilled, (state, { payload }) => {
@@ -34,39 +35,39 @@ export const slice = createSlice({
       })
       .addCase(signInWithGoogle.fulfilled, (state, { payload }) => {
         if (!payload || !payload.length) state.isLoggedIn = false;
-        state.token = payload;
+        state.accessToken = payload;
         state.isLoggedIn = true;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.email = action.payload.email;
-        state.token = action.payload.accessToken;
+        state.accessToken = action.payload.accessToken;
         state.isLoggedIn = true;
       })
       .addCase(signInUser.fulfilled, (state, action) => {
-        state.token = action.payload.data.accessToken;
+        state.accessToken = action.payload;
         state.isLoading = false;
         state.isLoggedIn = true;
       })
       .addCase(refreshUser.pending, state => {
-        state.isRefreshing = true;
+        state.error = null;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.token = action.payload.data.accessToken;
+        state.accessToken = action.payload;
         state.isLoggedIn = true;
-        state.isRefreshing = false;
+        state.error = null;
       })
-      .addCase(refreshUser.rejected, state => {
-        state.isRefreshing = false;
+      .addCase(refreshUser.rejected, (state, action) => {
+        state.error = action.payload;
       })
       .addCase(logout.pending, state => {
-        state.token = null;
+        state.accessToken = null;
       })
       .addCase(logout.fulfilled, state => {
         Object.assign(state, initialState);
         state.isLoggedIn = false;
       })
       .addCase(logout.rejected, state => {
-        state.token = null;
+        state.accessToken = null;
       })
       .addMatcher(isAnyOf(registerUser.pending, signInUser.pending), state => {
         state.isLoading = true;
@@ -80,6 +81,5 @@ export const slice = createSlice({
   },
 });
 
-export const { setCredentials } = slice.actions;
-
 export default slice.reducer;
+export const { logoutUser } = slice.actions;
